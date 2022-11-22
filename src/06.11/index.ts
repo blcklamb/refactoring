@@ -12,6 +12,17 @@ interface Props {
   };
 }
 
+interface ShipppingProps {
+  basePrice: number;
+  shippingMethod: {
+    discountThreshold: number;
+    discountedFee: number;
+    feePerCase: number;
+  };
+  quantity: number;
+  discount: number;
+}
+
 const mockData = {
   product: {
     basePrice: 15000,
@@ -32,6 +43,21 @@ const priceOrder = ({ product, quantity, shippingMethod }: Props) => {
     Math.max(quantity - product.discountThreshold, 0) *
     product.basePrice *
     product.discountRate;
+  const price = applyShipping({
+    basePrice,
+    shippingMethod,
+    quantity,
+    discount,
+  });
+  return price;
+};
+
+const applyShipping = ({
+  basePrice,
+  shippingMethod,
+  quantity,
+  discount,
+}: ShipppingProps) => {
   const shippingPerCase =
     basePrice > shippingMethod.discountThreshold
       ? shippingMethod.discountedFee
