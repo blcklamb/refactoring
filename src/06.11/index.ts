@@ -13,6 +13,7 @@ interface Props {
 }
 
 interface ShipppingProps {
+  priceData: {};
   basePrice: number;
   shippingMethod: {
     discountThreshold: number;
@@ -43,7 +44,9 @@ const priceOrder = ({ product, quantity, shippingMethod }: Props) => {
     Math.max(quantity - product.discountThreshold, 0) *
     product.basePrice *
     product.discountRate;
+  const priceData = {};
   const price = applyShipping({
+    priceData,
     basePrice,
     shippingMethod,
     quantity,
@@ -53,6 +56,7 @@ const priceOrder = ({ product, quantity, shippingMethod }: Props) => {
 };
 
 const applyShipping = ({
+  priceData,
   basePrice,
   shippingMethod,
   quantity,
