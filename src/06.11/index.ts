@@ -25,6 +25,15 @@ interface ShipppingProps {
   };
 }
 
+interface PriceDataProps {
+  product: {
+    basePrice: number;
+    discountThreshold: number;
+    discountRate: number;
+  };
+  quantity: number;
+}
+
 const mockData = {
   product: {
     basePrice: 15000,
@@ -40,22 +49,22 @@ const mockData = {
 };
 
 const priceOrder = ({ product, quantity, shippingMethod }: Props) => {
-  const basePrice = product.basePrice * quantity;
-  const discount =
-    Math.max(quantity - product.discountThreshold, 0) *
-    product.basePrice *
-    product.discountRate;
-  const priceData = {
-    basePrice: basePrice,
-    quantity: quantity,
-    discount: discount,
-  };
+  const priceData = calculatePricingData({ product, quantity });
   const price = applyShipping({
     priceData,
     shippingMethod,
   });
   return price;
 };
+
+function calculatePricingData({ product, quantity }: PriceDataProps) {
+  const basePrice = product.basePrice * quantity;
+  const discount =
+    Math.max(quantity - product.discountThreshold, 0) *
+    product.basePrice *
+    product.discountRate;
+  return { basePrice: basePrice, quantity: quantity, discount: discount };
+}
 
 const applyShipping = ({ priceData, shippingMethod }: ShipppingProps) => {
   const shippingPerCase =
