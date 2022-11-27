@@ -50,11 +50,10 @@ const mockData = {
 
 const priceOrder = ({ product, quantity, shippingMethod }: Props) => {
   const priceData = calculatePricingData({ product, quantity });
-  const price = applyShipping({
+  return applyShipping({
     priceData,
     shippingMethod,
   });
-  return price;
 };
 
 function calculatePricingData({ product, quantity }: PriceDataProps) {
@@ -72,8 +71,7 @@ const applyShipping = ({ priceData, shippingMethod }: ShipppingProps) => {
       ? shippingMethod.discountedFee
       : shippingMethod.feePerCase;
   const shippingCost = priceData.quantity * shippingPerCase;
-  const price = priceData.basePrice - priceData.discount + shippingCost;
-  return price;
+  return priceData.basePrice - priceData.discount + shippingCost;
 };
 
 const index = () => {
