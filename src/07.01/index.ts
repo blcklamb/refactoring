@@ -3,18 +3,25 @@ interface classProps {
   country: string;
 }
 class Organization {
-  _data: classProps;
+  _name: string;
+  _country: string;
 
   constructor(data: classProps) {
-    this._data = data;
-  }
-
-  set name(aString) {
-    this._data.name = aString;
+    this._name = data.name;
+    this._country = data.country;
   }
 
   get name() {
-    return this._data.name;
+    return this._name;
+  }
+  set name(aString) {
+    this._name = aString;
+  }
+  get country() {
+    return this._country;
+  }
+  set country(aCountryCode) {
+    this._country = aCountryCode;
   }
 }
 
@@ -22,10 +29,6 @@ const organization = new Organization({
   name: "애크미 구스베리",
   country: "GB",
 });
-
-function getRawDataOfOrganization() {
-  return organization._data;
-}
 
 function getOrganization() {
   return organization;
